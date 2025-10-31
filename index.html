@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halloween Counter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #ff6b35;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #ffa500;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .stats h2 {
+            color: #ffa500;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ffa500;
+        }
+
+        .total-children {
+            text-align: center;
+            font-size: 1.5em;
+            padding: 15px;
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .total-children .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+
+        .recorder {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .recorder h2 {
+            color: #ffa500;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .item-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .item-label {
+            flex: 1;
+            font-size: 1.1em;
+            color: #fff;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .minus-btn, .plus-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 2em;
+            background: #ff6b35;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+
+        .minus-btn:hover, .plus-btn:hover {
+            background: #ff8555;
+            transform: scale(1.1);
+        }
+
+        .minus-btn:active, .plus-btn:active {
+            transform: scale(0.95);
+        }
+
+        .minus-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quantity-display {
+            width: 45px;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ffa500;
+            text-align: center;
+        }
+
+        .add-btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .add-btn:hover {
+            background: #66BB6A;
+            transform: scale(1.05);
+        }
+
+        .add-btn:active {
+            transform: scale(0.95);
+        }
+
+        .record-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3em;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .record-btn:hover {
+            background: #66BB6A;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .record-btn:active {
+            transform: translateY(0);
+        }
+
+        .record-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .current-selection {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            min-height: 50px;
+        }
+
+        .selection-item {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .reset-btn {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.1em;
+            background: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #e53935;
+        }
+
+        .export-btn {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.1em;
+            background: #2196F3;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: #42A5F5;
+        }
+
+        .export-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+
+        .message.success {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4CAF50;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .item-row {
+                flex-wrap: wrap;
+            }
+
+            .item-label {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .quantity-controls {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .add-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🎃 Halloween Counter 🎃</h1>
+
+    <div class="recorder">
+        <h2>Record Items for One Child</h2>
+
+        <div class="item-row">
+            <div class="item-label">🍫 Chocolate Candy</div>
+            <div class="quantity-controls">
+                <button class="minus-btn" onclick="decrementQty('chocolate')">−</button>
+                <div class="quantity-display" id="qty-chocolate">1</div>
+                <button class="plus-btn" onclick="incrementQty('chocolate')">+</button>
+            </div>
+            <button class="add-btn" onclick="addItem('chocolate')">Add</button>
+        </div>
+
+        <div class="item-row">
+            <div class="item-label">🍬 Non-Chocolate Candy</div>
+            <div class="quantity-controls">
+                <button class="minus-btn" onclick="decrementQty('nonchocolate')">−</button>
+                <div class="quantity-display" id="qty-nonchocolate">1</div>
+                <button class="plus-btn" onclick="incrementQty('nonchocolate')">+</button>
+            </div>
+            <button class="add-btn" onclick="addItem('nonchocolate')">Add</button>
+        </div>
+
+        <div class="item-row">
+            <div class="item-label">🎮 Toys</div>
+            <div class="quantity-controls">
+                <button class="minus-btn" onclick="decrementQty('toys')">−</button>
+                <div class="quantity-display" id="qty-toys">1</div>
+                <button class="plus-btn" onclick="incrementQty('toys')">+</button>
+            </div>
+            <button class="add-btn" onclick="addItem('toys')">Add</button>
+        </div>
+
+        <div class="item-row">
+            <div class="item-label">🍎 Apple Sauce</div>
+            <div class="quantity-controls">
+                <button class="minus-btn" onclick="decrementQty('applesauce')">−</button>
+                <div class="quantity-display" id="qty-applesauce">1</div>
+                <button class="plus-btn" onclick="incrementQty('applesauce')">+</button>
+            </div>
+            <button class="add-btn" onclick="addItem('applesauce')">Add</button>
+        </div>
+
+        <div class="item-row">
+            <div class="item-label">🥔 Potatoes</div>
+            <div class="quantity-controls">
+                <button class="minus-btn" onclick="decrementQty('potatoes')">−</button>
+                <div class="quantity-display" id="qty-potatoes">1</div>
+                <button class="plus-btn" onclick="incrementQty('potatoes')">+</button>
+            </div>
+            <button class="add-btn" onclick="addItem('potatoes')">Add</button>
+        </div>
+
+        <div class="current-selection" id="current-selection">
+            <em style="color: #888;">No items selected yet...</em>
+        </div>
+
+        <button class="record-btn" id="record-btn" onclick="recordChild()" disabled>
+            Record Child & Reset
+        </button>
+    </div>
+
+    <div class="stats">
+        <h2>📊 Statistics</h2>
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div class="stat-label">🍫 Chocolate</div>
+                <div class="stat-value" id="stat-chocolate">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">🍬 Non-Chocolate</div>
+                <div class="stat-value" id="stat-nonchocolate">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">🎮 Toys</div>
+                <div class="stat-value" id="stat-toys">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">🍎 Apple Sauce</div>
+                <div class="stat-value" id="stat-applesauce">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">🥔 Potatoes</div>
+                <div class="stat-value" id="stat-potatoes">0</div>
+            </div>
+        </div>
+        <div class="total-children">
+            Total Children Served: <span class="number" id="total-children">0</span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="export-btn" id="export-btn" onclick="exportData()" disabled>Export Data (JSON)</button>
+        <button class="reset-btn" onclick="resetAll()">Reset All Data</button>
+    </div>
+
+    <div class="message" id="message"></div>
+</div>
+
+<script>
+    const STORAGE_KEY = 'halloween-counter-data';
+
+    const itemNames = {
+        chocolate: '🍫 Chocolate',
+        nonchocolate: '🍬 Non-Chocolate',
+        toys: '🎮 Toys',
+        applesauce: '🍎 Apple Sauce',
+        potatoes: '🥔 Potatoes'
+    };
+
+    let currentChild = {
+        chocolate: 0,
+        nonchocolate: 0,
+        toys: 0,
+        applesauce: 0,
+        potatoes: 0
+    };
+
+    let data = {
+        children: []
+    };
+
+    function loadData() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            data = JSON.parse(saved);
+        }
+        updateStats();
+        updateExportButton();
+    }
+
+    function saveData() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function incrementQty(type) {
+        const qtyDisplay = document.getElementById(`qty-${type}`);
+        const currentQty = parseInt(qtyDisplay.textContent) || 1;
+        qtyDisplay.textContent = currentQty + 1;
+    }
+
+    function decrementQty(type) {
+        const qtyDisplay = document.getElementById(`qty-${type}`);
+        const currentQty = parseInt(qtyDisplay.textContent) || 1;
+        if (currentQty > 1) {
+            qtyDisplay.textContent = currentQty - 1;
+        }
+    }
+
+    function addItem(type) {
+        const qtyDisplay = document.getElementById(`qty-${type}`);
+        const qty = parseInt(qtyDisplay.textContent) || 1;
+
+        currentChild[type] += qty;
+        updateCurrentSelection();
+
+        // Reset quantity to 1
+        qtyDisplay.textContent = 1;
+    }
+
+    function updateCurrentSelection() {
+        const container = document.getElementById('current-selection');
+        const recordBtn = document.getElementById('record-btn');
+
+        const items = [];
+        let hasItems = false;
+
+        for (const [type, count] of Object.entries(currentChild)) {
+            if (count > 0) {
+                items.push(`<span class="selection-item">${itemNames[type]}: ${count}</span>`);
+                hasItems = true;
+            }
+        }
+
+        if (hasItems) {
+            container.innerHTML = items.join('');
+            recordBtn.disabled = false;
+        } else {
+            container.innerHTML = '<em style="color: #888;">No items selected yet...</em>';
+            recordBtn.disabled = true;
+        }
+    }
+
+    function recordChild() {
+        let hasItems = false;
+
+        for (const [type, count] of Object.entries(currentChild)) {
+            if (count > 0) {
+                hasItems = true;
+                break;
+            }
+        }
+
+        if (hasItems) {
+            const record = {
+                timestamp: new Date().toISOString(),
+                chocolate: currentChild.chocolate,
+                nonchocolate: currentChild.nonchocolate,
+                toys: currentChild.toys,
+                applesauce: currentChild.applesauce,
+                potatoes: currentChild.potatoes
+            };
+
+            data.children.push(record);
+            saveData();
+            updateStats();
+            updateExportButton();
+
+            // Reset current child
+            currentChild = {
+                chocolate: 0,
+                nonchocolate: 0,
+                toys: 0,
+                applesauce: 0,
+                potatoes: 0
+            };
+
+            // Reset all quantity displays
+            resetQuantityDisplays();
+            updateCurrentSelection();
+
+            showMessage('Child recorded successfully!', 'success');
+        }
+    }
+
+    function resetQuantityDisplays() {
+        document.getElementById('qty-chocolate').textContent = 1;
+        document.getElementById('qty-nonchocolate').textContent = 1;
+        document.getElementById('qty-toys').textContent = 1;
+        document.getElementById('qty-applesauce').textContent = 1;
+        document.getElementById('qty-potatoes').textContent = 1;
+    }
+
+    function updateStats() {
+        const totals = {
+            chocolate: 0,
+            nonchocolate: 0,
+            toys: 0,
+            applesauce: 0,
+            potatoes: 0
+        };
+
+        data.children.forEach(child => {
+            totals.chocolate += child.chocolate;
+            totals.nonchocolate += child.nonchocolate;
+            totals.toys += child.toys;
+            totals.applesauce += child.applesauce;
+            totals.potatoes += child.potatoes;
+        });
+
+        document.getElementById('stat-chocolate').textContent = totals.chocolate;
+        document.getElementById('stat-nonchocolate').textContent = totals.nonchocolate;
+        document.getElementById('stat-toys').textContent = totals.toys;
+        document.getElementById('stat-applesauce').textContent = totals.applesauce;
+        document.getElementById('stat-potatoes').textContent = totals.potatoes;
+        document.getElementById('total-children').textContent = data.children.length;
+    }
+
+    function resetAll() {
+        if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+            data = {
+                children: []
+            };
+            currentChild = {
+                chocolate: 0,
+                nonchocolate: 0,
+                toys: 0,
+                applesauce: 0,
+                potatoes: 0
+            };
+            saveData();
+            updateStats();
+            updateCurrentSelection();
+            updateExportButton();
+            showMessage('All data has been reset.', 'success');
+        }
+    }
+
+    function updateExportButton() {
+        const exportBtn = document.getElementById('export-btn');
+        exportBtn.disabled = data.children.length === 0;
+    }
+
+    function exportData() {
+        if (data.children.length === 0) {
+            showMessage('No data to export!', 'success');
+            return;
+        }
+
+        const exportData = {
+            exportDate: new Date().toISOString(),
+            totalChildren: data.children.length,
+            children: data.children
+        };
+
+        const jsonString = JSON.stringify(exportData, null, 2);
+        const blob = new Blob([jsonString], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+        link.download = `halloween-counter-${timestamp}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        showMessage('Data exported successfully!', 'success');
+    }
+
+    function showMessage(text, type) {
+        const messageEl = document.getElementById('message');
+        messageEl.textContent = text;
+        messageEl.className = `message ${type} show`;
+
+        setTimeout(() => {
+            messageEl.classList.remove('show');
+        }, 3000);
+    }
+
+    // Load data on page load
+    loadData();
+    updateCurrentSelection();
+</script>
+</body>
+</html>
