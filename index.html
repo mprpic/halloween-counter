@@ -309,18 +309,40 @@
         }
 
         @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
             h1 {
-                font-size: 2em;
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .subtitle {
+                display: none;
+            }
+
+            .recorder {
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+
+            .recorder h2 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
             }
 
             .item-row {
                 flex-wrap: wrap;
+                padding: 10px;
+                margin-bottom: 8px;
             }
 
             .item-label {
                 width: 100%;
                 text-align: center;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
+                font-size: 1em;
             }
 
             .quantity-controls {
@@ -328,9 +350,43 @@
                 justify-content: center;
             }
 
+            .minus-btn, .plus-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.8em;
+            }
+
+            .quantity-display {
+                width: 40px;
+                font-size: 1.2em;
+            }
+
             .add-btn {
                 width: 100%;
+                margin-top: 8px;
+                padding: 8px 15px;
+            }
+
+            .current-selection {
+                padding: 10px;
+                margin-bottom: 10px;
+                min-height: 40px;
+                font-size: 0.9em;
+            }
+
+            .record-btn {
+                padding: 15px;
+                font-size: 1.1em;
                 margin-top: 10px;
+            }
+
+            .controls {
+                margin-top: 10px;
+            }
+
+            .export-btn, .reset-btn {
+                padding: 12px;
+                font-size: 0.95em;
             }
         }
     </style>
@@ -341,6 +397,10 @@
 
     <div class="recorder">
         <h2>Record Items for One Child</h2>
+
+        <div class="current-selection" id="current-selection">
+            <em style="color: #888;">No items selected yet...</em>
+        </div>
 
         <div class="item-row">
             <div class="item-label">🍫 Chocolate Candy</div>
@@ -390,10 +450,6 @@
                 <button class="plus-btn" onclick="incrementQty('potatoes')">+</button>
             </div>
             <button class="add-btn" onclick="addItem('potatoes')">Add</button>
-        </div>
-
-        <div class="current-selection" id="current-selection">
-            <em style="color: #888;">No items selected yet...</em>
         </div>
 
         <button class="record-btn" id="record-btn" onclick="recordChild()" disabled>
