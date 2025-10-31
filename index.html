@@ -315,7 +315,7 @@
 
             h1 {
                 font-size: 1.5em;
-                margin-bottom: 5px;
+                margin-bottom: 10px;
             }
 
             .subtitle {
@@ -333,38 +333,39 @@
             }
 
             .item-row {
-                flex-wrap: wrap;
-                padding: 10px;
-                margin-bottom: 8px;
+                flex-wrap: nowrap;
+                padding: 8px;
+                margin-bottom: 6px;
+                gap: 5px;
             }
 
             .item-label {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 8px;
-                font-size: 1em;
+                flex: 1;
+                text-align: left;
+                font-size: 0.95em;
             }
 
             .quantity-controls {
-                flex: 1;
-                justify-content: center;
+                display: flex;
+                align-items: center;
+                gap: 3px;
             }
 
             .minus-btn, .plus-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.8em;
+                width: 40px;
+                height: 40px;
+                font-size: 1.6em;
             }
 
             .quantity-display {
-                width: 40px;
-                font-size: 1.2em;
+                width: 35px;
+                font-size: 1.1em;
             }
 
             .add-btn {
-                width: 100%;
-                margin-top: 8px;
-                padding: 8px 15px;
+                padding: 8px 12px;
+                font-size: 0.9em;
+                margin-top: 0;
             }
 
             .current-selection {
@@ -413,7 +414,7 @@
         </div>
 
         <div class="item-row">
-            <div class="item-label">🍬 Non-Chocolate Candy</div>
+            <div class="item-label">🍬 Sugar Candy</div>
             <div class="quantity-controls">
                 <button class="minus-btn" onclick="decrementQty('nonchocolate')">−</button>
                 <div class="quantity-display" id="qty-nonchocolate">1</div>
@@ -465,7 +466,7 @@
                 <div class="stat-value" id="stat-chocolate">0</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">🍬 Non-Chocolate</div>
+                <div class="stat-label">🍬 Sugar Candy</div>
                 <div class="stat-value" id="stat-nonchocolate">0</div>
             </div>
             <div class="stat-item">
@@ -499,7 +500,7 @@
 
     const itemNames = {
         chocolate: '🍫 Chocolate',
-        nonchocolate: '🍬 Non-Chocolate',
+        nonchocolate: '🍬 Sugar Candy',
         toys: '🎮 Toys',
         applesauce: '🍎 Apple Sauce',
         potatoes: '🥔 Potatoes'
